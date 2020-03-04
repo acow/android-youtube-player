@@ -26,6 +26,8 @@ interface YouTubePlayer {
     fun mute()
     fun unMute()
 
+    fun setPlaybackRate(rate: Float)
+
     /**
      * @param volumePercent Integer between 0 and 100
      */

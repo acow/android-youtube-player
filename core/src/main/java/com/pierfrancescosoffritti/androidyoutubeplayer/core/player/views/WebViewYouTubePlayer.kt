@@ -64,6 +64,10 @@ internal class WebViewYouTubePlayer constructor(context: Context, attrs: Attribu
         mainThreadHandler.post { loadUrl("javascript:unMute()") }
     }
 
+    override fun setPlaybackRate(rate: Float) {
+        mainThreadHandler.post { loadUrl("javascript:setPlaybackRate($rate)") }
+    }
+
     override fun setVolume(volumePercent: Int) {
         require(!(volumePercent < 0 || volumePercent > 100)) { "Volume must be between 0 and 100" }
 

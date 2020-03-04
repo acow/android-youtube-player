@@ -19,4 +19,11 @@
         android:padding="26dp"
         android:backgroundTint="@android:color/white"
         android:text="Play Next Video" />
+    <Button
+        android:id="@+id/play_rate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="26dp"
+        android:backgroundTint="@android:color/white"
+        android:text="1.0x" />
 </LinearLayout>

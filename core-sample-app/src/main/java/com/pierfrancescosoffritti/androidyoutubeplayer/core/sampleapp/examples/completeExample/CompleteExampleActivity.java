@@ -25,14 +25,22 @@ import com.pierfrancescosoffritti.aytplayersample.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class CompleteExampleActivity extends AppCompatActivity {
 
+    private YouTubePlayer mYoutubePlayer;
     private YouTubePlayerView youTubePlayerView;
     private FullScreenHelper fullScreenHelper = new FullScreenHelper(this);
+
+    private ArrayList<Float> speedRateList = new ArrayList(Arrays.asList(1F, 0.5F, 0.8F));
+    private Float currentSpeedRate = 1F;
 
     // a list of videos not available in some countries, to test if they're handled gracefully.
     // private String[] nonPlayableVideoIds = { "sop2V_MREEI" };
@@ -72,6 +80,7 @@ public class CompleteExampleActivity extends AppCompatActivity {
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                mYoutubePlayer = youTubePlayer;
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
@@ -81,6 +90,7 @@ public class CompleteExampleActivity extends AppCompatActivity {
 
                 addFullScreenListenerToPlayer();
                 setPlayNextVideoButtonClickListener(youTubePlayer);
+                setPlayRateButtonClickListener();
             }
         });
     }
@@ -153,6 +163,21 @@ public class CompleteExampleActivity extends AppCompatActivity {
                         youTubePlayer, getLifecycle(),
                         VideoIdsProvider.getNextVideoId(),0f
                 ));
+    }
+
+    /**
+     * Set a click listener on the "Play rate" button
+     */
+    private void setPlayRateButtonClickListener() {
+        Button playRateButton = findViewById(R.id.play_rate_button);
+
+        playRateButton.setOnClickListener(view -> {
+            int index = (speedRateList.indexOf(currentSpeedRate)+1)%speedRateList.size();
+            currentSpeedRate = speedRateList.get(index);
+            playRateButton.setText(String.format("%.1fx", currentSpeedRate));
+            mYoutubePlayer.setPlaybackRate(currentSpeedRate);
+        });
+
     }
 
     /**
